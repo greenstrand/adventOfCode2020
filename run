@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+from datetime import datetime
+from importlib import import_module
+import argparse
+import pytz
+import sys
+
+START = datetime(2020, 12, 1, tzinfo=pytz.timezone("EST"))
+
+def parse_args(argv):
+    parser = argparse.ArgumentParser()
+
+    day = (datetime.now().astimezone() - START).days + 1
+
+    parser.add_argument("--day", default=day, type=int, help="[default {}]".format(day))
+
+    return parser.parse_args(argv[1:])
+
+def main(argv):
+    args = parse_args(argv)
+    day = args.day
+
+    try:
+        module = import_module(get_module(day))
+        solver = module.Solver()
+    except ImportError as e:
+        print("Error loading module for day {}".format(day), e, file=sys.stderr)
+        raise
+
+    with open(get_input_file(day)) as f:
+        data = solver.load_input(f)
+
+    for part in range(2):
+        answer = getattr(solver, "part_{}".format(part + 1))(data)
+        print("Day {}, Part {}".format(day, part + 1), answer)
+
+def get_module(day):
+    return "day_{:02d}".format(day)
+
+def get_input_file(day):
+    return "inputs/day_{:02d}.txt".format(day)
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))
