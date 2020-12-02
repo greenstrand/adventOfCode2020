@@ -1,0 +1,20 @@
+#!/bin/bash -e
+
+DAY=$1
+
+if (( DAY < 1 || DAY > 25 )); then
+    echo "First arg must be between 1 and 25"
+    exit 1
+fi
+
+data_file=inputs/$(printf "day_%02d.txt" "$DAY")
+mod_file=$(printf "day_%02d.py" "$DAY")
+
+touch $data_file
+cat <<EOF >$mod_file
+from solvers import BaseSolver
+
+
+class Solver(BaseSolver):
+    pass
+EOF
