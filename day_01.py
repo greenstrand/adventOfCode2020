@@ -1,8 +1,6 @@
 import itertools
-import functools
-import operators
 
-from solvers import BaseSolver
+from solvers import BaseSolver, prod
 
 SUM = 2020
 
@@ -30,7 +28,3 @@ def get_matching_set(number_set, count):
         if sum(tpl) == SUM:
             return tpl
     return None
-
-
-def prod(nums):
-    return functools.reduce(operator.mul, nums, 1)
