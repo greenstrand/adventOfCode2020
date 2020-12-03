@@ -12,13 +12,13 @@ mod_file=$(printf "day_%02d.py" "$DAY")
 
 touch $data_file
 cat <<EOF >$mod_file
-from solvers import BaseSolver
+from solvers import DefaultSolver
 
 
-class Solver(BaseSolver):
+class Solver(DefaultSolver):
     @staticmethod
-    def load_input(f):
-        pass
+    def process_input(lines):
+        return list(lines)
 
     @staticmethod
     def part_1(data):

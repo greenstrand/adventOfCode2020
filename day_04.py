@@ -1,10 +1,10 @@
-from solvers import BaseSolver
+from solvers import DefaultSolver
 
 
-class Solver(BaseSolver):
+class Solver(DefaultSolver):
     @staticmethod
-    def load_input(f):
-        pass
+    def process_input(lines):
+        return list(lines)
 
     @staticmethod
     def part_1(data):

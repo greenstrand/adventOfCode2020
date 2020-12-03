@@ -1,16 +1,15 @@
 from collections import Counter, namedtuple
 import re
 
-from solvers import BaseSolver
+from solvers import DefaultSolver
 
 Password = namedtuple("Password", ("letter", "min", "max", "password"))
 PATTERN = r"(?P<min>\d+)-(?P<max>\d+) +(?P<letter>\w): +(?P<password>.*)"
 
 
-class Solver(BaseSolver):
+class Solver(DefaultSolver):
     @staticmethod
-    def load_input(f):
-        lines = list(f)
+    def process_input(lines):
         return [Password(**re.match(PATTERN, line).groupdict()) for line in lines]
 
     @staticmethod

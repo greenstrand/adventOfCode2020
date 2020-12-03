@@ -1,14 +1,14 @@
 import itertools
 
-from solvers import BaseSolver, prod
+from solvers import DefaultSolver, prod
 
 SUM = 2020
 
 
-class Solver(BaseSolver):
+class Solver(DefaultSolver):
     @staticmethod
-    def load_input(f):
-        return [int(s.strip()) for s in f if s.strip()]
+    def process_input(lines):
+        return [int(line) for line in lines]
 
     @staticmethod
     def part_1(number_set):

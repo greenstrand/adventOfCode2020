@@ -28,8 +28,7 @@ def main(argv):
         print("Error loading module for day {}".format(day), e, file=sys.stderr)
         raise
 
-    with open(get_input_file(day)) as f:
-        data = solver.load_input(f)
+    data = solver.load_input(get_input_file(day))
 
     for part in range(2):
         answer = getattr(solver, "part_{}".format(part + 1))(data)
