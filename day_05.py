@@ -1,4 +1,5 @@
 from solvers import DefaultSolver
+from itertools import starmap
 
 
 class Solver(DefaultSolver):
@@ -6,38 +7,27 @@ class Solver(DefaultSolver):
     def process_input(lines):
         output = []
         for line in lines:
-            fb = line[:7]
-            fb = [0 if x == "F" else 1 for x in fb]
-            lr = line[7:]
-            lr = [0 if x == "L" else 1 for x in lr]
+            fb = bits_to_int([x != "F" for x in line[:7]])
+            lr = bits_to_int([x != "L" for x in line[7:]])
             output.append((fb, lr))
         return output
 
     @staticmethod
     def part_1(data):
-        output = []
-        for fb, lr in data:
-            # print(fb, lr)
-            output.append((get_index(fb), get_index(lr)))
-
-        ids = [row * 8 + col for row, col in output]
-        print(ids)
+        ids = list(starmap(get_id, data))
         return max(ids)
 
     @staticmethod
     def part_2(data):
-        output = []
-        for fb, lr in data:
-            # print(fb, lr)
-            output.append((get_index(fb), get_index(lr)))
+        ids = list(starmap(get_id, data))
+        missing = set(range(min(ids), max(ids) + 1)) - set(ids)
+        assert len(missing) == 1
+        return missing.pop()
 
-        ids = [row * 8 + col for row, col in output]
-        max_id = 128 * 8
-        missing = set(range(max_id)) - set(ids)
-        return missing
 
-def get_index(bits):
-    output = 0
-    for i, b in enumerate(reversed(bits)):
-        output += b * (1 << i)
-    return output
+def bits_to_int(bits):
+    return sum(int(b) * (1 << i) for i, b in enumerate(reversed(bits)))
+
+
+def get_id(row, col):
+    return row * 8 + col
