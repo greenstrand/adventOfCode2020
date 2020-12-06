@@ -1,27 +1,15 @@
-from solvers import BaseSolver
+from solvers import NestedGroupSolver, set_intersection, set_union
 
 
-class Solver(BaseSolver):
+class Solver(NestedGroupSolver):
     @staticmethod
-    def process_input(f):
-        data = f.read()
-        groups = data.split("\n\n")
-        groups = [group.split("\n") for group in groups]
-        return groups
+    def process_input(groups):
+        return [[set(s) for s in group] for group in groups]
 
     @staticmethod
     def part_1(data):
-        counts = [len(set("".join(group))) for group in data]
-        return sum(counts)
+        return sum(map(len, map(set_union, data)))
 
     @staticmethod
     def part_2(data):
-        all_sets = [len(reduce_sets(group)) for group in data]
-        return sum(all_sets)
-
-
-def reduce_sets(sets):
-    res = set(sets[0])
-    for s in sets:
-        res = res & set(s)
-    return res
+        return sum(map(len, map(set_intersection, data)))
