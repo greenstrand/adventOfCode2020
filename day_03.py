@@ -1,4 +1,5 @@
 from solvers import DefaultSolver, prod
+from itertools import count
 
 
 class Solver(DefaultSolver):
@@ -18,10 +19,5 @@ class Solver(DefaultSolver):
 
 
 def count_trees(grid, dcol, drow):
-    col = 0
-    count = 0
-    for row in range(0, len(grid), drow):
-        if grid[row][col % len(grid[0])]:
-            count += 1
-        col += dcol
-    return count
+    coords = zip(range(0, len(grid), drow), count(0, dcol))
+    return sum(grid[row][col % len(grid[row])] for row, col in coords)
