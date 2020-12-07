@@ -1,8 +1,8 @@
 from solvers import DefaultSolver
 import re
 
-container_pattern = r"(.*) bags?"
-pattern = r"(\d+) (.*) bags?.?"
+container_pattern = r"^(?P<color>[^,.]+) bags? contain"
+count_pattern = r"(?P<count>\d+) (?P<color>[^,.]+) bags?"
 
 COLOR = "shiny gold"
 
@@ -10,21 +10,13 @@ COLOR = "shiny gold"
 class Solver(DefaultSolver):
     @staticmethod
     def process_input(lines):
-        result = {}
-        for line in lines:
-            left, right = line.split("contain")
-
-            container = re.match(container_pattern, left.strip()).group(1)
-            contents = list(map(str.strip, right.split(",")))
-            contents = (
-                [re.match(pattern, s).groups() for s in contents]
-                if contents != ["no other bags."]
-                else []
-            )
-            contents = {bag: int(count) for count, bag in contents}
-            result[container] = contents
-
-        return result
+        return {
+            re.match(container_pattern, line)["color"]: {
+                match["color"]: int(match["count"])
+                for match in re.finditer(count_pattern, line)
+            }
+            for line in lines
+        }
 
     @staticmethod
     def part_1(data):
