@@ -1,7 +1,7 @@
 from solvers import BaseSolver
 import re
 
-PATTERN = r"(?P<field>\w{3}):([^ \n]+)"
+PATTERN = r"(?P<field>\w{3}):(?P<value>[^ \n]+)"
 
 
 FIELDS = {
@@ -49,39 +49,38 @@ FIELD_CHECK = {
 }
 
 
+def has_fields(psp):
+    return not (set(FIELD_CHECK) - set(psp))
+
+
 def check_fields(psp):
-    diff = set(FIELD_CHECK) - set(psp)
-    if diff:
+    if not has_fields(psp):
         return False
     fields = {
         field: FIELD_CHECK[field](value)
         for field, value in psp.items()
         if field in FIELD_CHECK
     }
-    # if not all(fields.values()):
-    #     print({field: psp[field] for field, val in fields.items() if not val})
     return all(fields.values())
 
 
 class Solver(BaseSolver):
     @staticmethod
     def process_input(f):
-        text = f.read().strip()
-
         def extract_field(passport):
             fields = {
-                match.group(1): match.group(2)
+                match["field"]: match["value"]
                 for match in re.finditer(PATTERN, passport)
             }
             return fields
 
-        passports = text.split("\n\n")
+        passports = f.read().strip().split("\n\n")
         return [extract_field(p) for p in passports]
 
     @staticmethod
     def part_1(data):
-        return len([p for p in data if not (set(FIELDS) - set(p))])
+        return sum(map(has_fields, data))
 
     @staticmethod
     def part_2(data):
-        return len([p for p in data if check_fields(p)])
+        return sum(map(check_fields, data))
