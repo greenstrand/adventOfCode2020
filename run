@@ -8,14 +8,18 @@ import sys
 
 START = datetime(2020, 12, 1, tzinfo=pytz.timezone("EST"))
 
+
 def parse_args(argv):
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
     day = (datetime.now().astimezone() - START).days + 1
 
-    parser.add_argument("--day", default=day, type=int, help="[default {}]".format(day))
+    parser.add_argument("day", nargs="?", default=day, type=int, help="day to run")
 
     return parser.parse_args(argv[1:])
+
 
 def main(argv):
     args = parse_args(argv)
@@ -34,11 +38,14 @@ def main(argv):
         answer = getattr(solver, "part_{}".format(part + 1))(data)
         print("Day {}, Part {}".format(day, part + 1), answer)
 
+
 def get_module(day):
     return "day_{:02d}".format(day)
 
+
 def get_input_file(day):
     return "inputs/day_{:02d}.txt".format(day)
+
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv))

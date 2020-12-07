@@ -22,7 +22,7 @@ class Solver(DefaultSolver):
 
     @staticmethod
     def part_1(data):
-        pass
+        return data
 
     @staticmethod
     def part_2(data):
