@@ -19,7 +19,7 @@ class Solver(DefaultSolver):
             found = counts[p.letter]
             return found >= int(p.min) and found <= int(p.max)
 
-        return len(list(filter(is_valid, passwords)))
+        return sum(map(is_valid, passwords))
 
     @staticmethod
     def part_2(passwords):
@@ -28,4 +28,4 @@ class Solver(DefaultSolver):
             has_last = p.password[int(p.max) - 1] == p.letter
             return has_first != has_last
 
-        return len(list(filter(is_valid, passwords)))
+        return sum(map(is_valid, passwords))
