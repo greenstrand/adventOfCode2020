@@ -30,10 +30,7 @@ class DefaultSolver(BaseSolver):
 class NestedGroupSolver(BaseSolver):
     def load_input(self, path):
         with open(path) as f:
-            groups = [
-                [s.strip() for s in group.split("\n")]
-                for group in f.read().split("\n\n")
-            ]
+            groups = [[s.strip() for s in group.split("\n")] for group in f.read().split("\n\n")]
             return self.process_input(groups)
 
 

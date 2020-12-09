@@ -56,11 +56,7 @@ def has_fields(psp):
 def check_fields(psp):
     if not has_fields(psp):
         return False
-    fields = {
-        field: FIELD_CHECK[field](value)
-        for field, value in psp.items()
-        if field in FIELD_CHECK
-    }
+    fields = {field: FIELD_CHECK[field](value) for field, value in psp.items() if field in FIELD_CHECK}
     return all(fields.values())
 
 
@@ -68,10 +64,7 @@ class Solver(BaseSolver):
     @staticmethod
     def process_input(f):
         def extract_field(passport):
-            fields = {
-                match["field"]: match["value"]
-                for match in re.finditer(PATTERN, passport)
-            }
+            fields = {match["field"]: match["value"] for match in re.finditer(PATTERN, passport)}
             return fields
 
         passports = f.read().strip().split("\n\n")

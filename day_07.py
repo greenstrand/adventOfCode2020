@@ -12,8 +12,7 @@ class Solver(DefaultSolver):
     def process_input(lines):
         return {
             re.match(container_pattern, line)["color"]: {
-                match["color"]: int(match["count"])
-                for match in re.finditer(count_pattern, line)
+                match["color"]: int(match["count"]) for match in re.finditer(count_pattern, line)
             }
             for line in lines
         }

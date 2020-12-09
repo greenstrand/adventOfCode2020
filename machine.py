@@ -71,9 +71,7 @@ class Machine:
     @staticmethod
     def _parse_instruction(line, idx):
         try:
-            return MachineInstruction(
-                **re.match(Machine.INSTRUCTION_PATTERN, line).groupdict()
-            )
+            return MachineInstruction(**re.match(Machine.INSTRUCTION_PATTERN, line).groupdict())
         except Exception:
             print("Could not parse line {}: '{}'".format(idx, line))
             raise
