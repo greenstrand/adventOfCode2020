@@ -15,24 +15,27 @@ class Solver(DefaultSolver):
 
     @staticmethod
     def part_2(data):
-        bad_num = get_bad_num(data)
+        target = get_bad_num(data)
 
-        for i in range(len(data)):
-            nums = get_summing_nums(i, data, bad_num)
-            if nums:
-                return min(nums) + max(nums)
+        result = get_summing_nums(data, target)
+        if result:
+            start, end = result
+            nums = data[start:end]
+            return min(nums) + max(nums)
 
         return None
 
 
-def get_summing_nums(start, data, _sum):
+def get_summing_nums(data, target):
     total = 0
-    for i in range(start, len(data)):
-        total += data[i]
-        if total == _sum:
-            return data[start : i + 1]
-        elif total > _sum:
-            return None
+    j = 0
+    for i in range(len(data)):
+        while total < target:
+            j += 1
+            total += data[j - 1]
+        if total == target:
+            return i, j
+        total -= data[i]
     return None
 
 
