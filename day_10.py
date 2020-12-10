@@ -1,5 +1,6 @@
 from solvers import DefaultSolver
 from collections import Counter
+from itertools import takewhile
 
 from functools import lru_cache
 
@@ -18,18 +19,9 @@ class Solver(DefaultSolver):
 
     @staticmethod
     def part_2(data):
-        @lru_cache(maxsize=2 * len(data))
-        def count_arrangements(idx):
-            if idx == 0:
-                return 1
-            elif idx < 0:
-                return 0
+        counts = [1] * len(data)
 
-            total = 0
-            for j in range(idx - 1, -1, -1):
-                if data[j] + 3 < data[idx]:
-                    break
-                total += count_arrangements(j)
-            return total
-
-        return count_arrangements(len(data) - 1)
+        for i in range(1, len(data)):
+            prev = takewhile(lambda j: data[j] + 3 >= data[i], range(i - 1, -1, -1))
+            counts[i] = sum(counts[j] for j in prev)
+        return counts[len(data) - 1]
