@@ -1,7 +1,7 @@
 from collections import Counter, namedtuple
 import re
 
-from solvers import DefaultSolver
+from .solvers import DefaultSolver
 
 Password = namedtuple("Password", ("letter", "min", "max", "password"))
 PATTERN = r"(?P<min>\d+)-(?P<max>\d+) +(?P<letter>\w): +(?P<password>.*)"

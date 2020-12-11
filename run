@@ -40,7 +40,7 @@ def main(argv):
 
 
 def get_module(day):
-    return "day_{:02d}".format(day)
+    return "py.day_{:02d}".format(day)
 
 
 def get_input_file(day):

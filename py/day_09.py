@@ -1,4 +1,4 @@
-from solvers import DefaultSolver
+from .solvers import DefaultSolver
 import itertools
 
 N = 25

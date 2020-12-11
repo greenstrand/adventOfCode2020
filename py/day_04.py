@@ -1,4 +1,4 @@
-from solvers import BaseSolver
+from .solvers import BaseSolver
 import re
 
 PATTERN = r"(?P<field>\w{3}):(?P<value>[^ \n]+)"

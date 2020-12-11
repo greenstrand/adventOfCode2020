@@ -1,4 +1,4 @@
-from solvers import DefaultSolver
+from .solvers import DefaultSolver
 import re
 
 container_pattern = r"^(?P<color>[^,.]+) bags? contain"

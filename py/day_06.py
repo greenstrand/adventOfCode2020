@@ -1,4 +1,4 @@
-from solvers import NestedGroupSolver, set_intersection, set_union
+from .solvers import NestedGroupSolver, set_intersection, set_union
 
 
 class Solver(NestedGroupSolver):

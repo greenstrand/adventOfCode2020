@@ -8,11 +8,11 @@ if (( DAY < 1 || DAY > 25 )); then
 fi
 
 data_file=inputs/$(printf "day_%02d.txt" "$DAY")
-mod_file=$(printf "day_%02d.py" "$DAY")
+mod_file=py/$(printf "day_%02d.py" "$DAY")
 
 touch $data_file
 cat <<EOF >$mod_file
-from solvers import DefaultSolver
+from .solvers import DefaultSolver
 
 
 class Solver(DefaultSolver):

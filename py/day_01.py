@@ -1,6 +1,6 @@
 import itertools
 
-from solvers import DefaultSolver, prod
+from .solvers import DefaultSolver, prod
 
 SUM = 2020
 

@@ -1,5 +1,5 @@
-from solvers import DefaultSolver
-from machine import Machine, InfiniteLoopError, CommandOutOfBoundsError
+from .solvers import DefaultSolver
+from .machine import Machine, InfiniteLoopError, CommandOutOfBoundsError
 
 
 class Solver(DefaultSolver):

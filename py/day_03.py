@@ -1,4 +1,4 @@
-from solvers import DefaultSolver, prod
+from .solvers import DefaultSolver, prod
 from itertools import count
 
 

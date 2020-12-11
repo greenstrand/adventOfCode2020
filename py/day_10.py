@@ -1,4 +1,4 @@
-from solvers import DefaultSolver
+from .solvers import DefaultSolver
 from collections import Counter
 from itertools import takewhile
 
