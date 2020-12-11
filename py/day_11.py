@@ -2,47 +2,34 @@ from .solvers import DefaultSolver
 from collections import Counter
 from itertools import chain, product, count
 
-
-def get(i, j, gg):
-    if i < 0 or i >= len(gg):
-        return None
-    if j < 0 or j >= len(gg[0]):
-        return None
-    return gg[i][j]
+import numpy as np
 
 
-def neighbors():
-    for di, dj in product(range(-1, 2), range(-1, 2)):
-        if di != 0 or dj != 0:
-            yield di, dj
+_neighbors = [(i, j) for (i, j) in product(range(-1, 2), range(-1, 2)) if i != 0 or j != 0]
+
+
+LIVE = "#"
+DEAD = "L"
+EMPTY = "."
 
 
 def count_neighbors(i, j, gg):
     count = 0
-    for di in range(-1, 2):
-        for dj in range(-1, 2):
-            if di == 0 and dj == 0:
-                continue
-            count += get(i + di, j + dj, gg) == "#"
+    for di, dj in _neighbors:
+        count += gg[i + di, j + dj] == LIVE
     return count
 
 
 def count_visible(i, j, gg):
     total = 0
-    for di, dj in neighbors():
-        if di == 0 and dj == 0:
-            continue
+    for di, dj in _neighbors:
         for x in count(1):
-            res = get(i + x * di, j + x * dj, gg)
-            if res == "#":
+            res = gg[i + x * di, j + x * dj]
+            if res == LIVE:
                 total += 1
-            if res != ".":
+            if res != EMPTY:
                 break
     return total
-
-
-def deequals(g1, g2):
-    return all(l1 == l2 for l1, l2 in zip(g1, g2))
 
 
 def show(grid):
@@ -54,44 +41,42 @@ def counts(grid):
     return Counter(chain.from_iterable(grid))
 
 
-def step_next(grid, count_fn, threshold):
-    clone = [list(l) for l in grid]
+def step_next(grid, count_fn, threshold, clone):
+    for i, j in product(range(1, grid.shape[0] - 1), range(1, grid.shape[1] - 1)):
+        if grid[i][j] == EMPTY:
+            continue
+        occupied = grid[i][j] == LIVE
+        neighbors = count_fn(i, j, grid)
 
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            if grid[i][j] == ".":
-                continue
-            occupied = grid[i][j] == "#"
-            neighbors = count_fn(i, j, grid)
+        if not occupied and not neighbors:
+            clone[i][j] = LIVE
+        elif occupied and neighbors >= threshold:
+            clone[i][j] = DEAD
+        else:
+            clone[i][j] = grid[i][j]
 
-            if not occupied and not neighbors:
-                clone[i][j] = "#"
-            if occupied and neighbors >= threshold:
-                clone[i][j] = "L"
-    return clone
+
+def simulate(grid, count_fn, threshold):
+    grid = np.pad(grid.copy(), pad_width=1, mode="constant", constant_values=None)
+    clone = grid.copy()
+    while True:
+        step_next(grid, count_fn, threshold, clone)
+        if np.array_equal(grid, clone):
+            return clone
+        grid, clone = clone, grid
 
 
 class Solver(DefaultSolver):
     @staticmethod
     def process_input(lines):
-        return [list(l) for l in lines]
+        return np.array([list(l) for l in lines])
 
     @staticmethod
-    def part_1(data):
-        prev = data
-        while True:
-            curr = step_next(prev, count_neighbors, 4)
-            if deequals(prev, curr):
-                break
-            prev = curr
-        return counts(curr)["#"]
+    def part_1(grid):
+        grid = simulate(grid.copy(), count_neighbors, 4)
+        return counts(grid)[LIVE]
 
     @staticmethod
-    def part_2(data):
-        prev = data
-        while True:
-            curr = step_next(prev, count_visible, 5)
-            if deequals(prev, curr):
-                break
-            prev = curr
-        return counts(curr)["#"]
+    def part_2(grid):
+        grid = simulate(grid.copy(), count_visible, 5)
+        return counts(grid)[LIVE]
