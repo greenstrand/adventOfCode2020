@@ -5,16 +5,16 @@
 #import <vector>
 
 class Solver {
-protected:
-    const std::vector<std::string> lines;
-public:
-    Solver() {}
-    Solver(const std::vector<std::string> &input)
-    : lines(input)
-    {}
+ protected:
+  const std::vector<std::string> lines;
 
-    virtual long part1() = 0;
-    virtual long part2() = 0;
+ public:
+  Solver() {}
+  Solver(const std::vector<std::string> &input) : lines(input) {}
 
-    static std::shared_ptr<Solver> Create(int day, const std::vector<std::string> &input);
+  virtual long part1() = 0;
+  virtual long part2() = 0;
+
+  static std::shared_ptr<Solver> Create(int day,
+                                        const std::vector<std::string> &input);
 };
