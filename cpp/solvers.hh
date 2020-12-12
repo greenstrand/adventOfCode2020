@@ -8,6 +8,7 @@ class Solver {
 protected:
     const std::vector<std::string> lines;
 public:
+    Solver() {}
     Solver(const std::vector<std::string> &input)
     : lines(input)
     {}
