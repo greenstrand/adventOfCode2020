@@ -3,3 +3,13 @@
   hooks:
   - id: clang-format
     files: cpp/(.*.cc|.*.hh)
+    args:
+    - -assume-filename=/tmp/test.cpp
+
+- repo: https://github.com/python/black
+  rev: 19.3b0
+  hooks:
+  - id: black
+    files: run|py(.*.py)
+    args:
+    - --line-length=120

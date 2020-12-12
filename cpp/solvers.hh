@@ -5,10 +5,10 @@
 #import <vector>
 
 class Solver {
- public:
-  virtual long part1() = 0;
-  virtual long part2() = 0;
+  public:
+    virtual long part1() = 0;
+    virtual long part2() = 0;
 
-  static std::shared_ptr<Solver> Create(int day,
-                                        const std::vector<std::string> &input);
+    static std::shared_ptr<Solver>
+    Create(int day, const std::vector<std::string> &input);
 };

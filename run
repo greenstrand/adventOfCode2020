@@ -10,9 +10,7 @@ START = datetime(2020, 12, 1, tzinfo=pytz.timezone("EST"))
 
 
 def parse_args(argv):
-    parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-    )
+    parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     day = (datetime.now().astimezone() - START).days + 1
 
