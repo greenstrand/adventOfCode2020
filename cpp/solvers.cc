@@ -2,6 +2,7 @@
 
 #import "day_01.hh"
 #import "day_02.hh"
+#import "day_03.hh"
 
 std::shared_ptr<Solver> Solver::Create(int day,
                                        const std::vector<std::string> &input) {
@@ -10,6 +11,8 @@ std::shared_ptr<Solver> Solver::Create(int day,
       return std::make_shared<Solver1>(input);
     case 2:
       return std::make_shared<Solver2>(input);
+    case 3:
+      return std::make_shared<Solver3>(input);
     default:
       throw std::runtime_error("Day " + std::to_string(day) +
                                " not yet implemented.");

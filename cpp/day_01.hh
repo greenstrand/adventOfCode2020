@@ -7,7 +7,7 @@ class Solver1 : public Solver {
   std::vector<long> nums;
 
  public:
-  inline Solver1(const std::vector<std::string> &input) : Solver(input) {
+  inline Solver1(const std::vector<std::string> &input) {
     std::transform(input.begin(), input.end(), std::back_inserter(nums),
                    [](const auto &line) { return std::stol(line); });
   }
